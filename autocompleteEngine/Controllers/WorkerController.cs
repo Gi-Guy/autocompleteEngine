@@ -19,6 +19,22 @@ namespace autocompleteEngine.Controllers
         {
             this.dataContext = dataContext;
         }
+
+        /**
+         * This method will return a list of top 100 workers in the DB
+         * @return List
+         */
+        [HttpGet]
+        public async Task<ActionResult<List<Worker>>> Get()
+        {
+            workerServices = new WorkerServices();
+            List<Worker> workers = await workerServices.getTopWorkers(dataContext).ConfigureAwait(false);
+
+            // Check if list is empty or null
+            if (workers == null || workers.Count == 0)
+                return BadRequest("Worker not found.");
+            return Ok(workers);
+        }
         /**
          * This method will accept an string and will return a list of workers who
          * match the string by name or work title.

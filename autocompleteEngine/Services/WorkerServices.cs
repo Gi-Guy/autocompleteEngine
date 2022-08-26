@@ -5,6 +5,18 @@ namespace autocompleteEngine.Services
     public class WorkerServices
     {
         /**
+         * This methos will return a list of top 100 workers in the db.
+         * @param DataContext
+         * @return List
+         */
+        public async Task<List<Worker>> getTopWorkers(DataContext dataContext)
+        {
+            string Query = $"select TOP (100) * from dbo.Workers";
+            List<Worker> workers = await dataContext.Workers.FromSqlRaw(Query).ToListAsync();
+            
+            return workers;
+        }
+        /**
          * This method will accept string 'str' and data connection to the db and will return a list of workers 
          * who match to str by name or work title.
          * @param string
