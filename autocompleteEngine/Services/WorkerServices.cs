@@ -19,5 +19,24 @@ namespace autocompleteEngine.Services
 
             return workers;
         }
+
+        /**
+         * This method will add new Worker object into the db.
+         * @param Worker obj
+         * @param DataContext
+         */
+        public async Task addWorker(Worker worker, DataContext dataContext)
+        {
+            try
+            {
+                dataContext.Workers.Add(worker);
+                await dataContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

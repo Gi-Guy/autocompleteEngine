@@ -37,5 +37,25 @@ namespace autocompleteEngine.Controllers
                 return BadRequest("Worker not found.");
             return Ok(workers);
         }
+
+        /*  This section is not part of the CRUD api actions, but is for testing the engine */
+        [HttpPost]
+        public async Task<ActionResult<List<Worker>>> addWorkers()
+        {
+            await this.addWorkersToDB();
+            return Ok();
+        }
+        private async Task addWorkersToDB()
+        {
+            workerServices = new WorkerServices();
+            await workerServices.addWorker(new Worker("Guy", "software engineer", "a"), dataContext);
+            await workerServices.addWorker(new Worker("Avi", "software engineer", "a"), dataContext);
+            await workerServices.addWorker(new Worker("Adi", "software engineer", "b"), dataContext);
+            await workerServices.addWorker(new Worker("Inbar", "Data engineer", "b"), dataContext);
+            await workerServices.addWorker(new Worker("Yosi", "Data engineer", "b"), dataContext);
+            await workerServices.addWorker(new Worker("Bobi", "Something engineer", "c"), dataContext);
+            await workerServices.addWorker(new Worker("user1", "Something engineer", "c"), dataContext);
+            await workerServices.addWorker(new Worker("user2", "Something engineer", "c"), dataContext);
+        }
     }
 }

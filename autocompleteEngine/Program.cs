@@ -1,5 +1,7 @@
 global using autocompleteEngine.Data;
 global using Microsoft.EntityFrameworkCore;
+using autocompleteEngine.Controllers;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +32,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "ProfilePhotos")),
+        RequestPath = "/ProfilePhotos"
+});
 
 app.Run();

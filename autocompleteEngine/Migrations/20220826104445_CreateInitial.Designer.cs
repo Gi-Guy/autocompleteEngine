@@ -11,7 +11,7 @@ using autocompleteEngine.Data;
 namespace autocompleteEngine.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220826081239_CreateInitial")]
+    [Migration("20220826104445_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,10 @@ namespace autocompleteEngine.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePictureName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

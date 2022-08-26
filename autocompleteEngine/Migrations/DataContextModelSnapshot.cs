@@ -33,6 +33,10 @@ namespace autocompleteEngine.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePictureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WorkTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

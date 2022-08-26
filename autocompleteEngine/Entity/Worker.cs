@@ -7,7 +7,7 @@ namespace autocompleteEngine.Entity
         private int _id;
         private string _name = string.Empty;
         private string _workTitle = string.Empty;
-        // Add image var
+        private string _profilePictureName = string.Empty;
 
         public Worker()
         {
@@ -18,6 +18,13 @@ namespace autocompleteEngine.Entity
             this._name = name;
             this._workTitle = workTitle;
         }
+        public Worker(string name, string workTitle, string profilePictureName)
+        {
+            this._name = name;
+            this._workTitle = workTitle;
+            this._profilePictureName = profilePictureName;
+        }
+
         public Worker(int id, string name, string workTitle)
         {
             this._id = id;
@@ -39,6 +46,11 @@ namespace autocompleteEngine.Entity
         {
             get { return _workTitle; }
             set { _workTitle = value; }
+        }
+        public string ProfilePictureName
+        {
+            get { return _profilePictureName; }
+            set { _profilePictureName = value; }
         }
         public String ViewInfo
         {
