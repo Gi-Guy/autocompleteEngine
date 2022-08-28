@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using autocompleteEngine.Entity;
 using autocompleteEngine.Services;
+using Microsoft.AspNetCore.Cors;
 
 
 namespace autocompleteEngine.Controllers
@@ -24,6 +25,7 @@ namespace autocompleteEngine.Controllers
          * This method will return a list of top 100 workers in the DB
          * @return List
          */
+        [EnableCors]
         [HttpGet]
         public async Task<ActionResult<List<Worker>>> Get()
         {
@@ -41,12 +43,32 @@ namespace autocompleteEngine.Controllers
          * @param string 
          * @return List
          */
+        [EnableCors]
         [HttpGet("{str}")]
-        public async Task<ActionResult<List<Worker>>> Get(string str)
+        public async Task<ActionResult<List<Worker>>> getWorkerByStr(string str)
         {
             workerServices = new WorkerServices();
             // keeping all matches workers with str
-            List<Worker> workers = await workerServices.getWorkersAsync(str, dataContext).ConfigureAwait(false);
+            List<Worker> workers = await workerServices.getWorkersByStrAsync(str, dataContext).ConfigureAwait(false);
+
+            // Check if list is empty or null
+            if (workers == null || workers.Count == 0)
+                return BadRequest("Worker not found.");
+            return Ok(workers);
+        }
+        /**
+         * This method will accept an string and will return a list of workers who
+         * match the string by name or work title.
+         * @param string 
+         * @return List
+         */
+        [EnableCors]
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<List<Worker>>> getWorkerById(int id)
+        {
+            workerServices = new WorkerServices();
+            // keeping all matches workers with str
+            List<Worker> workers = await workerServices.getWorkersByIdAsync(id, dataContext).ConfigureAwait(false);
 
             // Check if list is empty or null
             if (workers == null || workers.Count == 0)

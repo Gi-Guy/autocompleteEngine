@@ -23,9 +23,24 @@ namespace autocompleteEngine.Services
          * @param DataContext
          * @return List
          */
-        public async Task<List<Worker>> getWorkersAsync(string str, DataContext dataContext)
+        public async Task<List<Worker>> getWorkersByStrAsync(string str, DataContext dataContext)
         {
             string Query = $"select * from dbo.Workers where name LIKE '%{str}%' OR workTitle LIKE '%{str}%'";
+
+            List<Worker> workers = await dataContext.Workers.FromSqlRaw(Query).ToListAsync();
+
+            return workers;
+        }
+        /**
+         * This method will accept int 'id' and a data connection to the db and will return a list of one worker 
+         * who match to id by id.
+         * @param int
+         * @param DataContext
+         * @return List
+         */
+        public async Task<List<Worker>> getWorkersByIdAsync(int id, DataContext dataContext)
+        {
+            string Query = $"select * from dbo.Workers where id = '{id}'";
 
             List<Worker> workers = await dataContext.Workers.FromSqlRaw(Query).ToListAsync();
 
