@@ -80,31 +80,6 @@ namespace autocompleteEngine.Controllers
             return Ok(workers);
         }
 
-        /* This method will manage the profile pictures of the api.*/
-        [Route("Photo")]
-        [HttpPost]
-        public JsonResult Photo()
-        {
-            try
-            {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = env.ContentRootPath + "/ProfilePhotos/" + filename;
-
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
-
-                return new JsonResult(filename);
-            }
-            catch (Exception)
-            {
-
-                return new JsonResult("anonymous.jpg");
-            }
-        }
         /*  This section is not part of the CRUD api actions, but is for testing the engine */
         [HttpPost]
         public async Task<ActionResult<List<Worker>>> addWorkers()
@@ -115,14 +90,14 @@ namespace autocompleteEngine.Controllers
         private async Task addWorkersToDB()
         {
             workerServices = new WorkerServices();
-            await workerServices.addWorker(new Worker("Guy", "software engineer", "a"), dataContext);
-            await workerServices.addWorker(new Worker("Avi", "software engineer", "a"), dataContext);
-            await workerServices.addWorker(new Worker("Adi", "software engineer", "b"), dataContext);
-            await workerServices.addWorker(new Worker("Inbar", "Data engineer", "b"), dataContext);
-            await workerServices.addWorker(new Worker("Yosi", "Data engineer", "b"), dataContext);
-            await workerServices.addWorker(new Worker("Bobi", "Something engineer", "c"), dataContext);
-            await workerServices.addWorker(new Worker("user1", "Something engineer", "c"), dataContext);
-            await workerServices.addWorker(new Worker("user2", "Something engineer", "c"), dataContext);
+            await workerServices.addWorker(new Worker("Guy", "software engineer", "man.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("Avi", "software engineer", "man.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("Adi", "software engineer", "woman.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("Inbar", "Data engineer", "woman.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("Yosi", "Data engineer", "woman.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("Bobi", "Something engineer", "man2.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("user1", "Something engineer", "man2.jpg"), dataContext);
+            await workerServices.addWorker(new Worker("user2", "Something engineer", "man2.jpg"), dataContext);
         }
     }
 }
