@@ -14,11 +14,15 @@ namespace autocompleteEngine.Controllers
     public class WorkerController : ControllerBase
     {
         private readonly DataContext dataContext;
+        private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment env;
         private WorkerServices workerServices;
 
-        public WorkerController(DataContext dataContext)
+        public WorkerController(DataContext dataContext, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             this.dataContext = dataContext;
+            this.configuration = configuration;
+            this.env = webHostEnvironment;
         }
 
         /**
@@ -76,6 +80,31 @@ namespace autocompleteEngine.Controllers
             return Ok(workers);
         }
 
+        /* This method will manage the profile pictures of the api.*/
+        [Route("Photo")]
+        [HttpPost]
+        public JsonResult Photo()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = env.ContentRootPath + "/ProfilePhotos/" + filename;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            }
+            catch (Exception)
+            {
+
+                return new JsonResult("anonymous.jpg");
+            }
+        }
         /*  This section is not part of the CRUD api actions, but is for testing the engine */
         [HttpPost]
         public async Task<ActionResult<List<Worker>>> addWorkers()
