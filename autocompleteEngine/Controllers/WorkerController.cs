@@ -14,24 +14,20 @@ namespace autocompleteEngine.Controllers
     public class WorkerController : ControllerBase
     {
         private readonly DataContext dataContext;
-        private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment env;
         private WorkerServices workerServices;
 
-        public WorkerController(DataContext dataContext, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public WorkerController(DataContext dataContext)
         {
             this.dataContext = dataContext;
-            this.configuration = configuration;
-            this.env = webHostEnvironment;
         }
 
         /**
-         * This method will return a list of top 100 workers in the DB
+         * This method will return a list of top 50 workers in the DB
          * @return List
          */
         [EnableCors]
         [HttpGet]
-        public async Task<ActionResult<List<Worker>>> Get()
+        public async Task<ActionResult<List<Worker>>> getWorkers()
         {
             workerServices = new WorkerServices();
             List<Worker> workers = await workerServices.getTopWorkers(dataContext).ConfigureAwait(false);
@@ -42,8 +38,7 @@ namespace autocompleteEngine.Controllers
             return Ok(workers);
         }
         /**
-         * This method will accept an string and will return a list of workers who
-         * match the string by name or work title.
+         * This method will accept a string and return a list of workers who match the string by name or work title.
          * @param string 
          * @return List
          */
@@ -61,9 +56,8 @@ namespace autocompleteEngine.Controllers
             return Ok(workers);
         }
         /**
-         * This method will accept an string and will return a list of workers who
-         * match the string by name or work title.
-         * @param string 
+         * This method will accept a id number and return a list of a worker who match the string by id.
+         * @param number int 
          * @return List
          */
         [EnableCors]
